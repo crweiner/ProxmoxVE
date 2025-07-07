@@ -1,114 +1,61 @@
-<div align="center">
-  <p align="center">
-    <a href="#">
-      <img src="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/images/logo.png" height="100px" />
-    </a>
-  </p>
-</div>
+# Automatic Ripping Machine (ARM) for Proxmox
 
-<div style="border: 2px solid #d1d5db; padding: 20px; border-radius: 8px; background-color: #f9fafb;">
-  <h2 align="center">Proxmox VE Helper-Scripts</h2>
-  <p align="center">A Community Legacy in Memory of @tteck</p>
-  <p align="center">
-    <a href="https://helper-scripts.com">
-      <img src="https://img.shields.io/badge/Website-4c9b3f?style=for-the-badge&logo=github&logoColor=white" alt="Website" />
-    </a>
-    <a href="https://discord.gg/3AnUqsXnmK">
-      <img src="https://img.shields.io/badge/Discord-7289da?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" />
-    </a> 
-    <a href="https://ko-fi.com/community_scripts">
-      <img src="https://img.shields.io/badge/Support-FF5F5F?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Donate" />
-    </a>
-    <a href="https://github.com/community-scripts/ProxmoxVE/blob/main/.github/CONTRIBUTOR_AND_GUIDES/CONTRIBUTING.md">
-      <img src="https://img.shields.io/badge/Contribute-ff4785?style=for-the-badge&logo=git&logoColor=white" alt="Contribute" />
-    </a> 
-    <a href="https://github.com/community-scripts/ProxmoxVE/blob/main/.github/CONTRIBUTOR_AND_GUIDES/USER_SUBMITTED_GUIDES.md">
-      <img src="https://img.shields.io/badge/Guides-0077b5?style=for-the-badge&logo=read-the-docs&logoColor=white" alt="Guides" />
-    </a> 
-    <a href="https://github.com/community-scripts/ProxmoxVE/blob/main/CHANGELOG.md">
-      <img src="https://img.shields.io/badge/Changelog-6c5ce7?style=for-the-badge&logo=git&logoColor=white" alt="Changelog" />
-    </a>
-  </p>
-</div>
+This repository contains scripts to install [Automatic Ripping Machine (ARM)](https://github.com/automatic-ripping-machine/automatic-ripping-machine) on Proxmox VE using LXC containers.
 
----
+## What is Automatic Ripping Machine?
 
-## 🚀 Project Overview
+Automatic Ripping Machine (ARM) is a program that automatically detects the insertion of an optical disc, identifies the type of media, and then rips it according to your preferences. It's designed to make it easy to back up your DVD and Blu-ray collections.
 
-**Proxmox VE Helper-Scripts** is a collection of tools to simplify the setup and management of Proxmox Virtual Environment (VE). Originally created by [tteck](https://github.com/tteck), these scripts are now continued by the community. Our goal is to preserve and expand upon tteck's work, providing an ongoing resource for Proxmox users worldwide.
+## Installation
 
----
+To install ARM on your Proxmox host, run the following command:
 
-## 📦 Features
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/arm.sh)"
+```
 
-- **Interactive Setup**: Choose between simple and advanced options for configuring VMs and LXC containers.
-- **Customizable Configurations**: Advanced setup for fine-tuning your environment.
-- **Seamless Integration**: Works seamlessly with Proxmox VE for a smooth experience.
-- **Community-driven**: Actively maintained and improved by the Proxmox community.
+This will create a Debian 12 LXC container with ARM installed via Docker.
 
----
-## ✅ Requirements
+## Features
 
-Ensure your system meets the following prerequisites:
+- Automatically detects optical drives
+- Runs ARM in a Docker container for easy management
+- Creates a systemd service to start ARM on boot
+- Provides an update script to keep ARM up to date
 
-- **Proxmox VE version**: 8.x or higher
-- **Linux**: Compatible with most distributions
-- **Dependencies**: bash and curl should be installed.
+## Usage
 
----
+Once installed, you can access the ARM web interface at:
 
-## 🚀 Installation
+```
+http://[container-ip]:8080
+```
 
-To install the Proxmox Helper Scripts, follow these steps:
+Default login credentials:
+- Username: admin
+- Password: password
 
-1. Visit the [Website](https://helper-scripts.com/).
-2. Search for the desired script, e.g., **"Home Assistant OS VM"**.
-3. Copy the provided **Bash command** from the **"How To Install"** section.
-4. Open the Proxmox shell on your **main node** and paste the command.
-5. Press enter to start the installation! 🚀
+## Updating ARM
 
----
+To update ARM to the latest version, run the following command inside the container:
 
-## ❤️ Community and Contributions
+```bash
+update-arm
+```
 
-We appreciate any contributions to the project—whether it's bug reports, feature requests, documentation improvements, or spreading the word. Your involvement helps keep the project alive and sustainable.
+## Requirements
 
-## 💖 Donate to Support the Project
-- **Ko-Fi for Community Edition**: [Donate to support this project](https://ko-fi.com/community_scripts) – Donations go towards maintaining the project, testing infrastructure, and charity (cancer research, hospice care). 30% of the funds will be donated to charity.
+- Proxmox VE 7.0 or later
+- At least one optical drive (DVD/Blu-ray) connected to your Proxmox host
+- Container requires:
+  - 2 CPU cores
+  - 2GB RAM
+  - 8GB disk space
 
----
+## Troubleshooting
 
-## 💬 Get Help
+If no optical drives are detected during installation, the script will prompt you to continue anyway or abort. If you continue without optical drives, you'll need to manually configure them later.
 
-Join our community for support:
+## License
 
-- **Discord**: Join our [Proxmox Helper Scripts Discord server](https://discord.gg/3AnUqsXnmK) for real-time support.
-- **GitHub Discussions**: [Ask questions or report issues](https://github.com/community-scripts/ProxmoxVE/discussions).
-
-## 🤝 Report a Bug or Feature Request
-
-If you encounter any issues or have suggestions for improvement, file a new issue on our [GitHub issues page](https://github.com/community-scripts/ProxmoxVE/issues). You can also submit pull requests with solutions or enhancements!
-
----
-
-## ⭐ Star History
-
-<a href="https://star-history.com/#community-scripts/ProxmoxVE&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=community-scripts/ProxmoxVE&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=community-scripts/ProxmoxVE&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=community-scripts/ProxmoxVE&type=Date" />
- </picture>
-</a>
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
-
-</br>
-</br>
-<p align="center">
-  <i style="font-size: smaller;"><b>Proxmox</b>® is a registered trademark of <a href="https://www.proxmox.com/en/about/company">Proxmox Server Solutions GmbH</a>.</i>
-</p>
-
-
+MIT License - See LICENSE file for details.
