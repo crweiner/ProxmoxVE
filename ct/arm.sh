@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source misc/arm-build.func
+
 # 
 # Author: Chandler Weiner (crweiner)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -13,6 +13,16 @@ var_disk="${var_disk:-8}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-12}"
 var_unprivileged="${var_unprivileged:-1}"
+NSAPP=$(echo ${APP,,} | tr -d ' ')
+var_install="${NSAPP}-install"
+
+# Check for minimum system requirements
+if ! command -v pveversion >/dev/null 2>&1; then echo "⚠️ This script requires Proxmox VE to run. Exiting..."; exit 1; fi
+if (( $(pveversion | grep -Po '(?<=pve-manager\/)\d+\.\d+' | sed 's/\.//' | cut -c1) < 7 )); then echo "⚠️ This script requires Proxmox VE 7 or greater to run. Exiting..."; exit 1; fi
+if [[ "$(dpkg --print-architecture)" != "amd64" ]]; then echo "⚠️ This script will not work with $(dpkg --print-architecture) architecture. Exiting..."; exit 1; fi
+
+# Load common functions
+source <(curl -fsSL https://raw.githubusercontent.com/crweiner/ProxmoxVE/automatic-ripping-machine/misc/build.func)
 
 header_info "$APP"
 variables
@@ -166,14 +176,24 @@ EOF
 
 start
 build_container
-
-# Run our update_script directly in the container
-lxc-attach -n "$CTID" -- bash -c "$(declare -f update_script); update_script"
 description
 
-msg_ok "Completed Successfully!\n"
-echo -e "${CREATING}${GN}${APP} setup has been successfully initialized!${CL}"
-echo -e "${INFO}${YW} Access it using the following URL:${CL}"
-echo -e "${TAB}${GATEWAY}${BGN}http://${IP}:8080${CL}"
-echo -e "${INFO}${YW} Default login: ${CL}"
-echo -e "${TAB}${GATEWAY}${BGN}admin / password${CL}"
+msg_info "Starting LXC Container"
+pct start $CTID
+msg_ok "Started LXC Container"
+
+lxc-attach -n $CTID -- bash -c "$(declare -f update_script); update_script"
+
+IP=$(pct exec $CTID ip a s dev eth0 | sed -n '/inet / s/\// /p' | awk '{print $2}')
+pct set $CTID -description "# ${APP} LXC
+### https://github.com/community-scripts/ProxmoxVE
+<a href='https://ko-fi.com/D1D7EP4GF'><img src='https://img.shields.io/badge/☕-Buy me a coffee-red' /></a>
+
+Automatic Ripping Machine (ARM) is a program that automatically detects the insertion of an optical disc, identifies the type of media, and then rips it according to your preferences.
+
+Web UI: http://${IP}:8080
+Username: admin
+Password: password"
+
+echo -e "${GATEWAY}Automatic Ripping Machine is now available at ${BL}http://${IP}:8080${CL}"
+echo -e "${GATEWAY}Default login: ${BL}admin / password${CL}"
