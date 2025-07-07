@@ -22,7 +22,7 @@ if (( $(pveversion | grep -Po '(?<=pve-manager\/)\d+\.\d+' | sed 's/\.//' | cut 
 if [[ "$(dpkg --print-architecture)" != "amd64" ]]; then echo "⚠️ This script will not work with $(dpkg --print-architecture) architecture. Exiting..."; exit 1; fi
 
 # Load common functions
-source <(curl -fsSL https://raw.githubusercontent.com/crweiner/ProxmoxVE/automatic-ripping-machine/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
 
 header_info "$APP"
 variables
