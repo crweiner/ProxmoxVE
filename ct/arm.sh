@@ -175,7 +175,7 @@ EOF
 }
 
 # Override the build_container function to skip downloading the installation script
-function build_container() {
+function custom_build_container() {
   #  if [ "$VERBOSE" == "yes" ]; then set -x; fi
 
   NET_STRING="-net0 name=eth0,bridge=$BRG$MAC,ip=$NET$GATE$VLAN$MTU"
@@ -424,8 +424,9 @@ EOF'
   lxc-attach -n "$CTID" -- bash -c "$(declare -f update_script); update_script"
 }
 
+# Use our custom build function instead of the original
 start
-build_container
+custom_build_container
 description
 
 IP=$(pct exec $CTID ip a s dev eth0 | sed -n '/inet / s/\// /p' | awk '{print $2}')
