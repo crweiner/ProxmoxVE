@@ -5,7 +5,7 @@
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://github.com/automatic-ripping-machine/automatic-ripping-machine
 
-source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
+source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/install.func)
 color
 verb_ip6
 catch_errors
