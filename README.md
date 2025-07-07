@@ -11,7 +11,7 @@ Automatic Ripping Machine (ARM) is a program that automatically detects the inse
 To install ARM on your Proxmox host, run the following command:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/crweiner/ProxmoxVE/refs/heads/automatic-ripping-machine/ct/arm.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/arm.sh)"
 ```
 
 This will create a Debian 12 LXC container with ARM installed via Docker.
